@@ -1,3 +1,8 @@
+rstatd version 4.0.1 for macos (patched)
+get client =>https://github.com/yhat/rstatd
+get ori source=>http://rstatd.sourceforge.net
+get patch source=> http://www.cs.huji.ac.il/~irush/projects/rstatd.html
+
 August 31, 2005
 
 rpc.rstatd has been left to rot for some time, and its age started
