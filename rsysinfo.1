@@ -1,0 +1,46 @@
+.\"Copyright 1995 Adam Migus (amigus@cs.mun.ca)
+.TH RSYSINFO 1 "DECEMBER 1, 1995" "Linux 1.2" "Linux Programmer's Manuel"
+.SH NAME
+rsysinfo \- remote system information display
+.SH SYNOPSIS
+\fBrsysinfo\fP [ \fIhost\fP | -v ]
+.SH DESCRIPTION
+\fBrsysinfo\fP displays a summary of the kernel statistics of a  particular 
+host.
+.br
+The output shows how long the system has been up, load averages,
+cpu usage in jiffies, pages from and to the disk, the number of
+interupts recieved, and the number of context switches.
+.br
+The load average numbers give the number of jobs in the run queue 
+averaged over 1, 5 and 15 minutes, all other fields are appropriatly
+labelled. 
+.br
+The \fBrpc.rstatd(8)\fP daemon must be running on the remote host 
+for this command to work.
+.br
+\fBrsysinfo\fP uses an RPC protocol defined in /usr/include/rpcsvc/rstat.x
+.SH "COMMAND LINE OPTIONS" 
+.TP
+\fB-v\fP
+prints the current version of rsysinfo and exits
+.TP
+.SH DIAGNOSTICS
+.TP
+rsysinfo: RPC: Program not registered
+The \fBrpc.rstatd(8)\fP daemon has not been started on the remote host.
+.TP
+rsysinfo: RPC: Timed out
+A communication error occurred.  Either the network is excessively 
+congested, or the \fBrpc.rstatd(8)\fP daemon has terminated on the 
+remote host.
+.TP
+rsysinfo: RPC: Port mapper failure - RPC: Timed out
+The remote host is not running the portmapper (see \fBrpc.rstatd(8)\fP)
+and cannot accomodate any RPC-based services.  The host may be down.
+.SH SEE ALSO
+\fBportmap(8)\fP, \fBrpc.rstatd(8)\fP, \fBinetd(8)\fP
+.SH HISTORY
+The \fBrsysinfo\fP command written for \fBLinux\fP.
+.SH AUTHOR
+Adam Migus (amigus@cs.mun.ca)

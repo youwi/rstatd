@@ -1,0 +1,45 @@
+.\" -*- nroff -*-
+.\" Copyright (C) 1995  Adam Migus, Memorial University of Newfoundland (MUN)
+
+.Dd Feb 03, 2001
+.Dt RPC.RSTATD 8
+.Os Linux
+.Sh NAME
+.Nm rpc.rstatd 
+.Nd kernel statistics server
+.Sh SYNOPSIS
+.Nm /usr/sbin/rpc.rstatd\fP [\fIINTERFACE\fR]...
+.Sh DESCRIPTION
+.Nm rpc.rstatd
+is a RPC daemon which collects performance statistics from
+kernel on serving machine.  This implementation for the
+.Nm Linux
+Operating System also returns the number of users logged in on
+the remote machine if the information is available.
+.Pp
+It also allows to specify which network interfaces to include
+in the packet count. If no interface names are specified packets
+from all interfaces besides the loopback interface are added up.
+.Pp
+The statistics are queried using
+.Xr rup 1
+,
+.Xr perfmeter 1
+, etc.
+The
+.Nm rpc.rstatd
+daemon is normally invoked by
+.Xr inetd 8 .
+.Pp
+.Nm rpc.rstatd
+uses an RPC protocol defined in 
+.Pa /usr/include/rpcsvc/rstat.x .
+.Sh SEE ALSO
+.Xr rup 1 ,
+.Xr rsysinfo 1 ,
+.Xr uptime 1 ,
+.Xr inetd 8
+.Sh AUTHORS
+Adam Migus (amigus@cs.mun.ca),
+Andreas Klingler (andreas.klingler@cyber-wizard.com)
+Andreas Mueller (andreas.mueller@othello.ch)

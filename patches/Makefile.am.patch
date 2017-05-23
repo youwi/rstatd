@@ -1,0 +1,13 @@
+--- Makefile.am.orig	2005-09-19 10:20:33.000000000 +0300
++++ Makefile.am	2010-04-04 12:22:59.000000000 +0300
+@@ -21,8 +21,8 @@
+ rsysinfo_SOURCES = rstat.h rsysinfo.c rstat_xdr.c rstat_clnt.c
+ 
+ rpc_rstatd_SOURCES = rstat.h rstat_svc.c rstat_xdr.c rstat_proc.c \
+-	rstat_main.c getdata.c getdata22.c getdata24.c getdata26.c \
+-	config.h getdata22.h getdata24.h getdata26.h getdata.h rstat_proc.h
++	rstat_main.c getdata.c getdata22.c getdata24.c getdata26.c getdata_darwin.c \
++	config.h getdata22.h getdata24.h getdata26.h getdata_darwin.h getdata.h rstat_proc.h
+ 
+ CLEANFILES = rstat.h rstat_svc.c rstat_clnt.c rstat_xdr.c
+ 

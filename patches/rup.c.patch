@@ -1,0 +1,61 @@
+--- rup.c.orig	2010-04-04 13:29:06.000000000 +0300
++++ rup.c	2010-04-04 13:32:23.000000000 +0300
+@@ -37,6 +37,7 @@
+ #include <unistd.h>
+ #include <arpa/inet.h>
+ #include "rstat.h"
++#include <stdlib.h>
+ 
+ void bzero();
+ void bcopy();
+@@ -106,9 +107,6 @@
+ 	else
+ 		host = (char *)inet_ntoa(raddrp->sin_addr);
+ 
+-	if (strlen(host) > 12)
+-		host[12] = '\0';
+-
+ 	atime = (time_t)host_stat->curtime.tv_sec;
+ 	tmp_time = localtime(&atime);
+ 	host_time = *tmp_time;
+@@ -135,8 +133,8 @@
+ 		else
+ 			hours_buf[0] = '\0';
+ 
+-	printf("%-*s  up %9.9s%9.9s%i users, load average: %.2f %.2f %.2f\n",
+-		12,host,days_buf,hours_buf,
++	printf("%-*.*s  up %9.9s%9.9s%i users, load average: %.2f %.2f %.2f\n",
++		21,21,host,days_buf,hours_buf,
+ 		host_stat->users,
+ 		(double)host_stat->avenrun[0]/FSCALE,
+ 		(double)host_stat->avenrun[1]/FSCALE,
+@@ -172,9 +170,6 @@
+ 	else
+ 		host = (char *)inet_ntoa(raddrp->sin_addr);
+ 
+-	if (strlen(host) > 12)
+-		host[12] = '\0';
+-
+ 	tmp_time = localtime((time_t *)&host_stat->curtime.tv_sec);
+ 	host_time = *tmp_time;
+ 
+@@ -199,8 +194,8 @@
+ 		else
+ 			hours_buf[0] = '\0';
+ 
+-	printf("%-*s  up %9.9s%9.9s load average: %.2f %.2f %.2f\n",
+-		12,host,days_buf,hours_buf,
++	printf("%-*.*s  up %9.9s%9.9s load average: %.2f %.2f %.2f\n",
++		21,21,host,days_buf,hours_buf,
+ 		(double)host_stat->avenrun[0]/FSCALE,
+ 		(double)host_stat->avenrun[1]/FSCALE,
+ 		(double)host_stat->avenrun[2]/FSCALE);
+@@ -332,7 +327,7 @@
+ 	while((c = getopt(argc,argv,"h?uv")) != EOF)
+ 		switch(c) {
+ 			case 'v':
+-						printf(version);
++						printf("%s", version);
+ 						exit(0);
+ 			case 'u':
+ 						broadcast_v5();

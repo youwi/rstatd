@@ -1,0 +1,39 @@
+dnl Process this file with autoconf to produce a configure script.
+dnl
+dnl Software distributed under the GPL, for license terms, see the file
+dnl COPYING in this directory
+dnl 
+dnl $Id: configure.in,v 1.4 2005/09/19 07:20:33 afm Exp $
+dnl
+AC_INIT(rstat_proc.c)
+AM_INIT_AUTOMAKE(rpc.rstatd, 4.0.1)
+AM_CONFIG_HEADER(config.h)
+AC_LANG_C
+
+dnl Checks for programs.
+AC_PROG_AWK
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+
+dnl Checks for libraries.
+
+dnl Checks for header files.
+AC_CHECK_HEADERS(sys/ioctl.h syslog.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_TIME
+
+dnl Checks for library functions.
+AC_PROG_GCC_TRADITIONAL
+AC_HEADER_STDC
+AC_TYPE_SIGNAL
+
+AC_ARG_ENABLE(debug,
+[  --enable-debug          enable debugging options (defines RPC_SVC_FG) ],
+[
+CFLAGS="$CFLAGS -DRPC_SVC_FG -DDEBUG"
+],)
+
+AC_OUTPUT(Makefile)

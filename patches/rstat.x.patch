@@ -1,0 +1,13 @@
+--- rstat.x.orig	2001-08-15 05:35:56.000000000 +0300
++++ rstat.x	2010-04-04 12:47:17.000000000 +0300
+@@ -33,6 +33,10 @@
+  * Gather statistics on remote machines
+  */
+ 
++#ifdef  RPC_CLNT
++%#include <string.h>
++#endif
++
+ %#define FSHIFT  8   /* bits to right of fixed binary point */
+ %#define FSCALE  (1<<FSHIFT)
+ 

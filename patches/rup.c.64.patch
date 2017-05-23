@@ -1,0 +1,27 @@
+--- rup.c.orig	2005-09-07 11:07:28.000000000 +0300
++++ rup.c	2010-04-04 13:20:31.000000000 +0300
+@@ -89,6 +89,7 @@
+ 	struct tm host_uptime;
+ 	char days_buf[16];
+ 	char hours_buf[16];
++	time_t atime;
+ 
+ 	if(find_hostname(raddrp->sin_addr)) {
+ 		return(0);
+@@ -108,12 +109,14 @@
+ 	if (strlen(host) > 12)
+ 		host[12] = '\0';
+ 
+-	tmp_time = localtime((time_t *)&host_stat->curtime.tv_sec);
++	atime = (time_t)host_stat->curtime.tv_sec;
++	tmp_time = localtime(&atime);
+ 	host_time = *tmp_time;
+ 
+ 	host_stat->curtime.tv_sec -= host_stat->boottime.tv_sec;
+ 
+-	tmp_time = gmtime((time_t *)&host_stat->curtime.tv_sec);
++	atime = (time_t)host_stat->curtime.tv_sec;
++	tmp_time = gmtime(&atime);
+ 	host_uptime = *tmp_time;
+ 
+ 

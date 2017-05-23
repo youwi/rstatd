@@ -1,0 +1,25 @@
+20051207:
+	- fix a file descriptor leak pointed out by some anonymous user
+	  on sourceforge, thanks
+
+20050919:
+	- version number bumped to 4.0, due to the considerable architectural
+	  change
+
+20050912:
+	- fix a bug in net code: counter should be initialized before
+	  accumulating over all interfaces
+	- updated rstatd man page
+
+20050907:
+	- update automake/autoconf
+	- new version so far tested on 2.6 kernel only
+
+20050831:
+	- ChangeLog started
+	- converted everything to ANSI C
+	- some minor changes to the client programs to remove warnings
+	- rebuilt data collection stuff so that it becomes more easily
+	  extensible and adaptable to future versions
+--
+$Id: ChangeLog,v 1.3 2005/09/19 07:20:33 afm Exp $

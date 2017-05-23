@@ -1,0 +1,62 @@
+--- getdata.c.orig	2010-04-08 14:06:10.000000000 +0300
++++ getdata.c	2010-04-08 14:06:21.000000000 +0300
+@@ -12,6 +12,7 @@
+ #include <getdata22.h>
+ #include <getdata24.h>
+ #include <getdata26.h>
++#include <getdata_darwin.h>
+ #include <sys/types.h>
+ #include <regex.h>
+ #include <syslog.h>
+@@ -20,6 +21,8 @@
+ #include <string.h>
+ #include <utmp.h>
+ #include <paths.h>
++#include <stdlib.h>
++#include <stdio.h>
+ 
+ 	#define	PATTERNS	6
+ char	*patterns[PATTERNS] = {
+@@ -144,6 +147,9 @@
+ #endif
+ 
+ static void	get_users(struct statsusers *s) {
++#ifdef __APPLE__
++        return;
++#else
+ 	int ufd, users = 0;
+ 	struct utmp u;
+ 
+@@ -157,6 +163,7 @@
+ 	}
+ 	(void)close(ufd);
+ 	s->users = users;
++#endif
+ }
+ 
+ static void	get_uptime(struct statsusers *stats) {
+@@ -276,6 +283,15 @@
+ 	/* find out about the current kernel version */
+ 	memset(&u, sizeof(u), 0);
+ 	uname(&u);
++        if (strcasecmp(u.sysname, "Darwin") == 0) {
++            getdata.net = get_net_darwin;
++            getdata.cpu = get_cpu_darwin;
++            getdata.disk = get_disk_darwin;
++            getdata.uptime = get_uptime_darwin;
++            getdata.vm = get_vm_darwin;
++            getdata.users = get_users_darwin;
++            getdata.load = get_load_darwin;
++        } else {
+ 	if (0 == strncmp(u.release, "2.2", 3)) {
+ 		getdata.disk = get_disk22;
+ 	}
+@@ -286,7 +302,7 @@
+ 		getdata.disk = get_disk26;
+ 		getdata.vm = get_vm26;
+ 	}
+-
++        }
+ 	/* prepare the disk patterns */
+ 	for (i = 0; i < PATTERNS; i++) {
+ 		rx[i] = (regex_t *)malloc(sizeof(regex_t));

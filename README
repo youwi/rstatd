@@ -1,0 +1,98 @@
+August 31, 2005
+
+rpc.rstatd has been left to rot for some time, and its age started
+showed. E.g. it was unable to deal with the large numbers of ticks
+reported for multiprocesser machines, or it crashed if a system had
+no disks, or if it did not find any, which wasn't surprising as it
+looked in all the wrong places, at least for current kernels.
+
+This release changes the data acquisition layer of rpc.rstatd, making
+it simpler to adapt it to changes in the operation system. In principle,
+this code could even be ported more easily to other systems, by adding
+a new data acquisition functions for that particular platform. There are,
+however, currently no plans to do this.
+
+May 3, 2001
+
+This is Sun's rpc.rstatd ported to linux with a new feature and a new client
+to exploit that new feature. 
+
+Authors: Adam Migus (amigus@cs.mun.ca)
+         Andreas Klingler (andreas.klingler@cyber-wizard.com)
+Original: Sun MicroSystems.
+
+rpc.rstatd collects kernel information on the host machine,  I have ported
+Sun's version of this daemon to use the proc file system.  Output look similar
+Output look similar to mun-ruptime (found on ftp.cs.mun.ca).
+I have added the ability of extracting the number of users on the remote host
+and a new "rup" client which exploits that feature.
+
+	* Both the new client and daemon remain backwardly compatible with 
+	  previous versions.
+
+rpc.rstatd can be loaded from the command line but is usually executed via
+inetd(8).
+
+To Install:
+
+Edit the Makefile and add the option NORPCLIB if your rpc functions are built
+into libc (as they are on most linux machines).  Also you will have to comment
+out the call -lrpclib.
+If you have a network interface other than "eth0" that appears in
+/proc/net/dev, like "tu0", "sl0" etc you can define it as the interface for
+rstatd to moniter by adding:
+	-DNET_IFACE=\"<device>\"
+to the options line in the Makefile.
+
+Append the following line to your /etc/inetd.conf
+
+rstatd/1-5 dgram	rpc/udp wait	root	/usr/sbin/rpc.rstatd  rpc.rstatd
+
+Tested on SuSE Linux 7.0 (kernel 2.2.16-suse18) and 7.1 (kernel 2.4).
+Any bug reports, comments, etc. sent to the below address.
+
+Release 3.07
+Patch from Daniel Vesely <dan@suse.cz> to support protocol version 4 .
+Configuration now via GNU configure script.
+
+Release 3.06
+Now works also with kernel 2.4 .
+Some cleanups.
+Added 'disk' info to rsysinfo
+
+Release 3.05
+Added option to specify which interfaces to include into the packet count.
+
+Release 3.04
+Adapted to /proc for kernel 2.2.x .
+Made /proc parsing code more fault tolerant.
+Writes messages to syslog and dies instead of returning false data if /proc parsing
+does not work.
+Some bug fixes.
+
+BUGFIXES 3.03
+
+Fixed incorrect numbers in  ipackets, opackets, etc. for 1.2.13, and for
+1.3.xx. Thanks for some help with the patch from:
+	Jens Maurer (jmaurer@cck.uni-kl.de)
+
+Fixed infinite loop problem if IFACE wasn't in /proc/net/dev all the time
+eg. ppp0.  Stat's are now reinitialized to zero as well.  Thanks for the
+patch from:
+	Carlos Fonseca (fonseca@acse.shef.ac.uk)
+
+I have also added a quick hack called "rsysinfo" to extract and print all
+the information collected by rstatd.  This is also an idea of Jens Maurer
+who submitted code for the program as well.
+
+KNOWN BUGS (if you know how to fix them email me)
+
+With some versions of rpclib the compiled "rup" may not broadcast correctly.
+This is another reason why it is recommended to use built in libc rpc stuff.
+
+Adam Migus, amigus@cs.mun.ca 
+Andreas Klingler, andreas.klingler@cyber-wizard.com
+Andreas Mueller, afm@othello.ch
+
+--
+$Id: README,v 1.9 2005/09/19 07:20:33 afm Exp $

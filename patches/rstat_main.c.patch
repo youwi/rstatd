@@ -1,0 +1,21 @@
+--- rstat_main.c.orig	2010-04-04 12:52:49.000000000 +0300
++++ rstat_main.c	2010-04-04 13:37:59.000000000 +0300
+@@ -35,6 +35,7 @@
+  *
+  **************************************************************************/
+ 
++#include <stdlib.h>
+ #include <stdio.h>
+ #include <rpc/rpc.h>
+ #include <rpc/pmap_clnt.h>
+@@ -51,6 +52,10 @@
+ extern void rstat_service();
+ extern void test_connect();
+ 
++#ifdef __APPLE__
++int _rpcsvcdirty;
++#endif
++
+ int inetd_connect = 1;
+ 
+ void background()

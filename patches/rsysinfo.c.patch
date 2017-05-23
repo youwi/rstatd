@@ -1,0 +1,35 @@
+--- rsysinfo.c.orig	2005-09-07 11:07:28.000000000 +0300
++++ rsysinfo.c	2010-04-04 12:55:56.000000000 +0300
+@@ -37,6 +37,7 @@
+ #include <arpa/inet.h>
+ #include <unistd.h>
+ #include "rstat.h"
++#include <stdlib.h>
+ 
+ void bzero();
+ void bcopy();
+@@ -58,6 +59,7 @@
+ 	struct tm host_uptime;
+ 	char days_buf[16];
+ 	char hours_buf[16];
++	time_t atime;
+ 
+ 	host_stat = (statstime *)replyp;
+ 
+@@ -69,12 +71,14 @@
+ 		host = (char *)inet_ntoa(raddrp->sin_addr);
+ 
+ 
+-	tmp_time = localtime((time_t *)&host_stat->curtime.tv_sec);
++	atime = (time_t)host_stat->curtime.tv_sec;
++	tmp_time = localtime(&atime);
+ 	host_time = *tmp_time;
+ 
+ 	host_stat->curtime.tv_sec -= host_stat->boottime.tv_sec;
+ 
+-	tmp_time = gmtime((time_t *)&host_stat->curtime.tv_sec);
++	atime = (time_t)host_stat->curtime.tv_sec;
++	tmp_time = gmtime(&atime);
+ 	host_uptime = *tmp_time;
+ 
+ 
